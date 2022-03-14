@@ -119,3 +119,44 @@ fun Context.sendSms(number: String, text: String = ""): Boolean {
         return false
     }
 }
+
+
+/**
+ * make device vibrate by duration
+ */
+fun Context.vibrate(duration: Long) {
+    val vib = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      vib.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+    } else {
+      @Suppress("DEPRECATION")
+      vib.vibrate(duration)
+    }
+  }
+
+
+  /**
+   * get versionCode and versionName
+   */
+  val Context.versionName: String?
+get() = try {
+  val pInfo = packageManager.getPackageInfo(packageName, 0);
+  pInfo?.versionName
+} catch (e: PackageManager.NameNotFoundException) {
+  e.printStackTrace()
+  null
+}
+
+val Context.versionCode: Long?
+get() = try {
+  val pInfo = packageManager.getPackageInfo(packageName, 0)
+  if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+    pInfo?.longVersionCode
+  } else {
+    @Suppress("DEPRECATION")
+    pInfo?.versionCode?.toLong()
+  }
+} catch (e: PackageManager.NameNotFoundException) {
+  e.printStackTrace()
+  null
+}
