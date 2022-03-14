@@ -31,13 +31,12 @@ loginButton.enableButton()
 /**
  * usage: Loads URL into an ImageView using Glide and picasso
  *
- * -fun ImageView.loadFromUrl (Glide)
- * -fun ImageView.loadFromUrl (picasso)
+ * -fun ImageView.loadFromUrlByGlide (Glide)
+ * -fun ImageView.loadFromUrlByPicasso (picasso)
  *
  */
- userProfileView.loadFromUrl("image_url", context)  //Glide
- userProfileView.loadFromUrl("image_url")  //picasso
-
+ imageView.loadFromUrlByGlide("image_url") 
+ imageView.loadFromUrlByPicasso("image_url") 
 
  /**
  * usage: Hides the soft input keyboard from the screen

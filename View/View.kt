@@ -39,8 +39,11 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
  *
  * @param url URL to be loaded
  */
-fun ImageView.loadFromUrl(url: String, context: Context) {
-    Glide.with(context).load(url).into(this)
+fun ImageView.loadFromUrlByGlide(url: String) {
+    Glide.with(this.context.applicationContext)
+    .load(url)
+    .transition(DrawableTransitionOptions.withCrossFade())
+    .into(this)
 }
 
 
@@ -49,7 +52,7 @@ fun ImageView.loadFromUrl(url: String, context: Context) {
  *
  * @param url URL to be loaded
  */
-fun ImageView.loadFromUrl(url: String) {
+fun ImageView.loadFromUrlByPicasso(url: String) {
     Picasso.get().load(url).into(this)
 }
 
