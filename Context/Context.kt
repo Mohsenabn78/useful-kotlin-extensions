@@ -25,3 +25,23 @@ fun Context.copyToClipboard(content: String) {
     val clip = ClipData.newPlainText("clipboard", content)
     clipboardManager.setPrimaryClip(clip)
 }
+
+/**
+ * show alert dialog
+ */
+fun Context.showAlertDialog(
+    positiveButtonLabel: String = getString(R.string.default_str),
+    title: String = getString(R.string.defualt_str), message: String,
+    actionOnPositiveButton: () -> Unit
+) {
+    val builder = AlertDialog.Builder(this)
+        .setTitle(title)
+        .setMessage(message)
+        .setCancelable(false)
+        .setPositiveButton(positiveButtonLabel) { dialog, id ->
+            dialog.cancel()
+            actionOnPositiveButton()
+        }
+    val alert = builder.create()
+    alert?.show()
+}

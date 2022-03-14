@@ -15,7 +15,6 @@
  *
  */
 getCompatColor(R.color.white) // Activity
-
 requireContext().getCompatColor(R.color.white) // Fragment
 
 
@@ -26,4 +25,13 @@ requireContext().getCompatColor(R.color.white) // Fragment
  *
  */
  requireContext().copyToClipboard("my text")
+
+
+ /**
+ * show alert dialog
+ * 
+ *  -fun Context.showAlertDialog
+ * 
+ */
+requireContext().showAlertDialog("label","title","message",{  Log.e("TAG", "Action" ) })
  
