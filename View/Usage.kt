@@ -35,7 +35,6 @@ loginButton.enableButton()
  * -fun ImageView.loadFromUrl (picasso)
  *
  */
-
  userProfileView.loadFromUrl("image_url", context)  //Glide
  userProfileView.loadFromUrl("image_url")  //picasso
 
@@ -45,7 +44,6 @@ loginButton.enableButton()
  *
  * -fun View.hideKeyboard
  */
-
  submitButton.setOnClickListener { it.hideKeyboard(context) }
 
 
@@ -55,7 +53,6 @@ loginButton.enableButton()
  * -fun View.showSnackbar
  *
  */
-
  rootLayout.showSnackbar(R.string.my_string) {}
  constraintLayout.showSnackbar(R.string.my_string, Snackbar.LENGTH_SHORT) {}
 
@@ -66,7 +63,6 @@ loginButton.enableButton()
  * -fun Snackbar.action
  *
  */
-
  constraintLayout.showSnackbar(R.string.my_string) {
             action(R.string.open) { Log.e("TAG", "Action item clicked") }
         }

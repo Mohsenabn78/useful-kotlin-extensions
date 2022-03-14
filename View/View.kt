@@ -1,5 +1,5 @@
 
-
+// for see more extensions check https://github.com/Mohsenabn78/useful-kotlin-extensions
 
 /**
  * Visibility modifiers and check functions
