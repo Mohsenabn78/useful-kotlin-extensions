@@ -1,22 +1,27 @@
+
+// for see more extensions check https://github.com/Mohsenabn78/useful-kotlin-extensions
+
 /**
- * Copyright (C) 2020 Fernando Cejas Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Check if the Internet connectivity is available
  */
-package ir.baron.app.core.extension
+fun Context.isInternetAvailable(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetworkInfo = connectivityManager.activeNetworkInfo
+    return activeNetworkInfo != null && activeNetworkInfo.isConnected
+}
 
-import android.content.Context
-import android.net.ConnectivityManager
+/**
+ * get color & drawable resources from context
+ */
+fun Context.getCompatColor(@ColorRes colorId: Int) = ResourcesCompat.getColor(resources, colorId, null)
 
-val Context.connectivityManager: ConnectivityManager get() =
-    this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+fun Context.getCompatDrawable(@DrawableRes drawableId: Int) = AppCompatResources.getDrawable(this, drawableId)!!
+
+/**
+ * copy a text to clipboard
+ */
+fun Context.copyToClipboard(content: String) {
+    val clipboardManager = ContextCompat.getSystemService(this, ClipboardManager::class.java)!!
+    val clip = ClipData.newPlainText("clipboard", content)
+    clipboardManager.setPrimaryClip(clip)
+}
