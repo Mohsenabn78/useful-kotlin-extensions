@@ -6,6 +6,9 @@ fun <X, Y> LiveData<X>.map(body: (X) -> Y): LiveData<Y> {
   return Transformations.map(this, body)
 }
 
+fun <T : Any> mutableLivedataOf(initialValue: T? = null): MutableLiveData<T> {
+    return MutableLiveData<T>().apply { value = initialValue }
+}
 
 fun <X, Y> LiveData<X>.switchMap(body: (X) -> LiveData<Y>): LiveData<Y> {
   return Transformations.switchMap(this, body)

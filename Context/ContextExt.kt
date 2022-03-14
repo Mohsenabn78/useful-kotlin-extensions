@@ -57,3 +57,65 @@ fun Context.isActivityFinishing(): Boolean {
 fun Context.isActivityDestroyed(): Boolean {
     return this is Activity && isDestroyed
 }
+
+/**
+ * browse a url with context
+ */
+fun Context.browse(url: String, newTask: Boolean = false): Boolean {
+    try {
+        val intent = intent(ACTION_VIEW) {
+            data = Uri.parse(url)
+            if (newTask) addFlags(FLAG_ACTIVITY_NEW_TASK)
+        }
+        startActivity(intent)
+        return true
+    } catch (e: Exception) {
+        return false
+    }
+}
+
+/**
+ * send email with context 
+ */
+fun Context.email(email: String, subject: String = "", text: String = ""): Boolean {
+    val intent = intent(ACTION_SENDTO) {
+        data = Uri.parse("mailto:")
+        putExtra(EXTRA_EMAIL, arrayOf(email))
+        if (subject.isNotBlank()) putExtra(EXTRA_SUBJECT, subject)
+        if (text.isNotBlank()) putExtra(EXTRA_TEXT, text)
+    }
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+        return true
+    }
+    return false
+}
+
+
+/**
+ * make call with context
+ */
+fun Context.makeCall(number: String): Boolean {
+    try {
+        val intent = Intent(ACTION_CALL, Uri.parse("tel:$number"))
+        startActivity(intent)
+        return true
+    } catch (e: Exception) {
+        return false
+    }
+}
+
+/**
+ * send sms with context 
+ */
+fun Context.sendSms(number: String, text: String = ""): Boolean {
+    try {
+        val intent = intent(ACTION_VIEW, Uri.parse("sms:$number")) {
+            putExtra("sms_body", text)
+        }
+        startActivity(intent)
+        return true
+    } catch (e: Exception) {
+        return false
+    }
+}

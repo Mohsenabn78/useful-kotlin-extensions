@@ -16,6 +16,37 @@ fun View.makeGone() { visibility = View.GONE }
 
 fun View.makeInvisible() { visibility = View.INVISIBLE }
 
+inline fun View.visiableIf(block: () -> Boolean) {
+    if (visibility != View.VISIBLE && block()) {
+        visibility = View.VISIBLE
+    }
+}
+
+inline fun View.invisiableIf(block: () -> Boolean) {
+    if (visibility != View.INVISIBLE && block()) {
+        visibility = View.INVISIBLE
+    }
+}
+
+/**
+ * text view tools
+ */
+fun TextView.underLine() {
+    paint.flags = paint.flags or Paint.UNDERLINE_TEXT_FLAG
+    paint.isAntiAlias = true
+}
+
+fun TextView.deleteLine() {
+    paint.flags = paint.flags or Paint.STRIKE_THRU_TEXT_FLAG
+    paint.isAntiAlias = true
+}
+
+fun TextView.bold(isBold: Boolean = true) {
+    paint.isFakeBoldText = isBold
+    paint.isAntiAlias = true
+}
+
+
 /**
  * get string from view
  */
@@ -34,9 +65,19 @@ fun Button.enableButton() {
     alpha = 1.0f
 }
 
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
+/**
+ * inflate a layout
+ */
+fun ViewGroups.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
 
+
+/**
+ * binding layout with dataBinding
+ */
+fun <T : ViewDataBinding> ViewGroup.bind(layoutId: Int): T {
+    return DataBindingUtil.inflate(getLayoutInflater(), layoutId, this, true)
+}
 
 
 /**
