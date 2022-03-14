@@ -14,9 +14,7 @@ Kotlin extension function provides a facility to "add" methods to class without 
 
 ## Related
 
-Here are some related artificial
-
-[Kotlin doc](https://kotlinlang.org/docs/extensions.html)
+Here are some related artificial [Kotlin doc](https://kotlinlang.org/docs/extensions.html)
 
 
 
