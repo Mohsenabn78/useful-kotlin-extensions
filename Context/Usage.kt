@@ -34,4 +34,15 @@ requireContext().getCompatColor(R.color.white) // Fragment
  * 
  */
 requireContext().showAlertDialog("label","title","message",{  Log.e("TAG", "Action" ) })
+
+
+/**
+ * chack activity lifecycle
+ * 
+ * -fun Context.isActivityFinishing
+ * -fun Context.isActivityDestroyed
+ * 
+ */
+
+ requireContext().isActivityFinishing()
  

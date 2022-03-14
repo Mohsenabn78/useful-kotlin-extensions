@@ -45,3 +45,15 @@ fun Context.showAlertDialog(
     val alert = builder.create()
     alert?.show()
 }
+
+
+/**
+ * chack activity lifecycle
+ */
+fun Context.isActivityFinishing(): Boolean {
+    return this is Activity && isFinishing
+}
+
+fun Context.isActivityDestroyed(): Boolean {
+    return this is Activity && isDestroyed
+}

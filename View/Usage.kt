@@ -16,6 +16,14 @@ imageView.makeVisible() // Sets the button's visibility to visible
 imageView.makeGone() // Sets the button's visibility to gone
 imageView.makeInvisible() // Sets the button's visibility to invisible
 
+/**
+ * usage: get string from view
+ * 
+ *  -fun View.getString
+ * 
+ */
+view.getString(R.String.my_string)
+
 
 /**
  * usage: Button enabling/disabling modifiers
@@ -73,6 +81,14 @@ loginButton.enableButton()
  * -fun EditText.onTextChanged
  *
  */
- editTextPhone.onTextChanged { s ->
-            Log.e("TAG", "phone length: ${s.length}")
-        }
+ editTextPhone.onTextChanged { s -> Log.e("TAG", "phone length: ${s.length}") }
+
+
+ /**
+ * usage: start activity by intent
+ * 
+ * -fun Activity.startActivity 
+ * -fun Activity.startActivity (with bundle)
+ * 
+ */
+requireActivity().startActivity<DestinationActivity>()

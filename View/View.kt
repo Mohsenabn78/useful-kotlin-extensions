@@ -16,6 +16,10 @@ fun View.makeGone() { visibility = View.GONE }
 
 fun View.makeInvisible() { visibility = View.INVISIBLE }
 
+/**
+ * get string from view
+ */
+fun View.getString(@StringRes resId: Int): String = resources.getString(resId)
 
 /**
  * Button enabling/disabling modifiers
@@ -32,6 +36,7 @@ fun Button.enableButton() {
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
+
 
 
 /**
@@ -106,3 +111,18 @@ fun EditText.onTextChanged(listener: (String) -> Unit) {
     })
 }
 
+
+/**
+ * start activity by intent
+ */
+inline fun <reified T : Activity> Activity.startActivity() {
+    val intent = Intent()
+    intent.setClass(this, T::class.java)
+    startActivity(intent)
+}
+
+inline fun <reified T : Activity> Activity.startActivity(options: Bundle?) {
+    val intent = Intent()
+    intent.setClass(this, T::class.java)
+    startActivity(intent, options)
+}

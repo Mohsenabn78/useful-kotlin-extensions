@@ -1,32 +1,38 @@
-/**
- * Copyright (C) 2020 Fernando Cejas Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package ir.baron.app.core.extension
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+// for see more extensions check https://github.com/Mohsenabn78/useful-kotlin-extensions
 
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) =
         beginTransaction().func().commit()
+
 
 inline fun <reified T : ViewModel> Fragment.viewModel(factory: ViewModelProvider.Factory, body: T.() -> Unit): T {
     val vm = ViewModelProviders.of(this, factory)[T::class.java]
     vm.body()
     return vm
+}
+
+
+inline fun Fragment.supplyContext(block: Activity.() -> Unit) {
+    activity?.run { block(this) }
+}
+
+
+fun Fragment.finish() {
+    supplyContext { finish() }
+}
+
+/**
+ *  Fragment related
+ * 
+ * val firstName by getValue<String>("firstName") // String?
+ * val lastName by getValueNonNull<String>("lastName") // String
+ */
+inline fun <reified T: Any> Fragment.getValue(lable: String, defaultvalue: T? = null) = lazy {
+    val value = arguments?.get(lable)
+    if (value is T) value else defaultvalue
+}
+
+inline fun <reified T: Any> Fragment.getValueNonNull(lable: String, defaultvalue: T? = null) = lazy {
+    val value = arguments?.get(lable)
+    requireNotNull(if (value is T) value else defaultvalue) { lable }
 }
