@@ -1,95 +1,105 @@
+
+
+
 /**
- * Copyright (C) 2020 Fernando Cejas Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Visibility modifiers and check functions
  */
-package ir.baron.app.core.extension
+fun View.isVisibile(): Boolean = visibility == View.VISIBLE
 
-import android.graphics.drawable.Drawable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.FragmentActivity
-import coil.ImageLoader
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.target.BaseTarget
-import com.bumptech.glide.request.target.SizeReadyCallback
-import com.bumptech.glide.request.transition.Transition
+fun View.isGone(): Boolean = visibility == View.GONE
 
-fun View.cancelTransition() {
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-        transitionName = null
-    }
+fun View.isInvisible(): Boolean = visibility == View.INVISIBLE
+
+fun View.makeVisible() { visibility = View.VISIBLE }
+
+fun View.makeGone() { visibility = View.GONE }
+
+fun View.makeInvisible() { visibility = View.INVISIBLE }
+
+
+/**
+ * Button enabling/disabling modifiers
+ */
+fun Button.disableButton() {
+    isEnabled = false
+    alpha = 0.7f
 }
 
-fun View.isVisible() = this.visibility == View.VISIBLE
-
-fun View.visible() { this.visibility = View.VISIBLE }
-
-fun View.invisible() { this.visibility = View.GONE }
+fun Button.enableButton() {
+    isEnabled = true
+    alpha = 1.0f
+}
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
 
-fun ImageView.loadFromUrl(url: String) =
-    Glide.with(this.context.applicationContext)
-        .load(url)
-        .transition(DrawableTransitionOptions.withCrossFade())
-        .into(this)
 
-fun ImageView.loadUrlAndPostponeEnterTransition(url: String, activity: FragmentActivity) {
-    val target: ImageViewBaseTarget = ImageViewBaseTarget(this, activity)
-    Glide.with(context.applicationContext).load(url).into(target)
+/**
+ * Loads URL into an ImageView using Glide
+ *
+ * @param url URL to be loaded
+ */
+fun ImageView.loadFromUrl(url: String, context: Context) {
+    Glide.with(context).load(url).into(this)
 }
 
-fun ImageView.loadSvgUrl(url: String,duration:Int=0,placeHolder:Drawable?=null) {
 
-    val imageLoader = ImageLoader.Builder(this.context)
-        .componentRegistry { add(SvgDecoder(this@loadSvgUrl.context)) }
-        .build()
-
-    val request = ImageRequest.Builder(this.context)
-        .crossfade(true)
-        .crossfade(100)
-        .placeholder(placeHolder)
-        //.error(R.drawable.error)
-        .data(url)
-        .target(this)
-        .build()
-
-    imageLoader.enqueue(request)
+/**
+ * Loads URL into an ImageView using Picasso
+ *
+ * @param url URL to be loaded
+ */
+fun ImageView.loadFromUrl(url: String) {
+    Picasso.get().load(url).into(this)
 }
 
-private class ImageViewBaseTarget (var imageView: ImageView?, var activity: FragmentActivity?) : BaseTarget<Drawable>() {
-    override fun onLoadFailed(errorDrawable: Drawable?) {
-        super.onLoadFailed(errorDrawable)
-        activity?.supportStartPostponedEnterTransition()
-    }
 
-    override fun getSize(cb: SizeReadyCallback) = cb.onSizeReady(SIZE_ORIGINAL, SIZE_ORIGINAL)
-
-    override fun removeCallback(cb: SizeReadyCallback) {
-        imageView = null
-        activity = null
-    }
-
-    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-        imageView?.setImageDrawable(resource)
-        activity?.supportStartPostponedEnterTransition()
-    }
+/**
+ * Hides the soft input keyboard from the screen
+ */
+fun View.hideKeyboard(context: Context?) {
+    val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(this.windowToken, 0)
 }
+
+
+/**
+ * Shows the Snackbar inside an Activity or Fragment
+ * 
+ * @param messageRes Text to be shown inside the Snackbar
+ * @param length Duration of the Snackbar
+ * @param f Action of the Snackbar
+ */
+fun View.showSnackbar(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_LONG, f: Snackbar.() -> Unit) {
+     val snackBar = Snackbar.make(this, resources.getString(messageRes), length)
+     snackBar.f()
+     snackBar.show()
+}
+
+
+/**
+ * Adds action to the Snackbar
+ * 
+ * @param actionRes Action text to be shown inside the Snackbar
+ * @param color Color of the action text
+ * @param listener Onclick listener for the action
+ */
+fun Snackbar.action(@StringRes actionRes: Int, color: Int? = null, listener: (View) -> Unit) {
+    setAction(actionRes, listener)
+    color?.let { setActionTextColor(color) }
+}
+
+
+/**
+ * Adds TextWatcher to the EditText
+ */
+fun EditText.onTextChanged(listener: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            listener(s.toString())
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    })
+}
+
