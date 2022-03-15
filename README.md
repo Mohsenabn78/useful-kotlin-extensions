@@ -9,7 +9,7 @@ Kotlin extension function provides a facility to "add" methods to class without 
 
 
 
-![Logo](https://thetechstack.net/assets/images/banners/kotlin-extension-function.png)
+![Logo](https://i.morioh.com/210605/06cbee5e.webp)
 
 
 
