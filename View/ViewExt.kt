@@ -167,3 +167,53 @@ inline fun <reified T : Activity> Activity.startActivity(options: Bundle?) {
     intent.setClass(this, T::class.java)
     startActivity(intent, options)
 }
+
+
+/**
+ * set and clear margin on a view
+ */
+fun View.setMargins(
+    leftMarginDp: Int? = null,
+    topMarginDp: Int? = null,
+    rightMarginDp: Int? = null,
+    bottomMarginDp: Int? = null
+) {
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        val params = layoutParams as ViewGroup.MarginLayoutParams
+        leftMarginDp?.run { params.leftMargin = this.dp }
+        topMarginDp?.run { params.topMargin = this.dp }
+        rightMarginDp?.run { params.rightMargin = this.dp }
+        bottomMarginDp?.run { params.bottomMargin = this.dp }
+        requestLayout()
+    }
+}
+
+fun View.clearMargins() {
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        val params = layoutParams as ViewGroup.MarginLayoutParams
+        params.leftMargin = 0.dp
+        params.topMargin = 0.dp
+         params.rightMargin = 0.dp
+         params.bottomMargin = 0.dp
+        requestLayout()
+    }
+}
+
+
+/**
+ * make a screenshots!!
+ */
+ fun View.takeScreenshot(): Bitmap {
+    val bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    val bgDrawable = this.background
+    if (bgDrawable != null) {
+        bgDrawable.draw(canvas)
+    } else {
+        canvas.drawColor(Color.WHITE)
+    }
+    this.draw(canvas)
+    return bitmap
+}
+ 
+ 
