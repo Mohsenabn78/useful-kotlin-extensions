@@ -216,4 +216,25 @@ fun View.clearMargins() {
     return bitmap
 }
  
+
+/**
+ * add custom divider to recycler view
+ */
+ fun RecyclerView.setDivider(
+    @DrawableRes drawableRes: Int,
+    orientation: Int = DividerItemDecoration.VERTICAL
+) {
+    val divider = DividerItemDecoration(
+        this.context,
+        orientation
+    )
+    val drawable = ContextCompat.getDrawable(
+        this.context,
+        drawableRes
+    )
+    drawable?.let {
+        divider.setDrawable(it)
+        addItemDecoration(divider)
+    }
+}
  
