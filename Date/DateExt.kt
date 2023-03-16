@@ -101,6 +101,12 @@ fun Date.dayOfYear(): Int {
  * It uses the ChronoUnit.YEARS enum value to calculate the difference in years between the two dates.
  * If the result is negative, it returns the absolute value of the difference.
  *
+ * Example:
+ * ```
+ * val date1 = LocalDate.of(1998, 9, 24)
+ * val date2 = LocalDate.of(2023, 3, 12)
+ * println(date1.yearsDifference(date2)) // 24
+ * ```
  * @param other: The other LocalDate object to calculate the difference from.
  * @return The number of years between the two LocalDate objects as a Long data type.
  */
@@ -113,6 +119,12 @@ fun LocalDate.yearsDifference(other: LocalDate): Long {
  * It uses the ChronoUnit.MONTHS enum value to calculate the difference in months between the two dates.
  * If the result is negative, it returns the absolute value of the difference.
  *
+ * Example:
+ * ```
+ * val date1 = LocalDate.of(1998, 9, 24)
+ * val date2 = LocalDate.of(2023, 3, 12)
+ * println(date1.monthsDifference(date2)) // 293
+ * ```
  * @param other: The other LocalDate object to calculate the difference from.
  * @return The number of months between the two LocalDate objects as a Long data type.
  */
@@ -125,24 +137,15 @@ fun LocalDate.monthsDifference(other: LocalDate): Long {
  * It uses the ChronoUnit.DAYS enum value to calculate the difference in days between the two dates.
  * If the result is negative, it returns the absolute value of the difference.
  *
+ * Example:
+ * ```
+ * val date1 = LocalDate.of(1998, 9, 24)
+ * val date2 = LocalDate.of(2023, 3, 12)
+ * println(date1.daysDifference(date2)) // 8935
+ * ```
  * @param  other: The other LocalDate object to calculate the difference from.
  * @return The number of days between the two LocalDate objects as a Long data type.
  */
 fun LocalDate.daysDifference(other: LocalDate): Long {
     return ChronoUnit.DAYS.between(this, other).absoluteValue
 }
-
-/*
-Example:
-
-fun main() {
-
-    val date1 = LocalDate.of(1998, 9, 24)
-    val date2 = LocalDate.of(2023, 3, 12)
-
-    println(date1.yearsDifference(date2)) // 24
-    println(date1.monthsDifference(date2)) // 293
-    println(date1.daysDifference(date2)) // 8935
-    
-}
- */
